@@ -3,6 +3,7 @@ langchain
 langchain-groq
 langchain-voyageai
 langchain-postgres
+langchain-text-splitters
 psycopg2-binary
 pypdf
 python-docx
