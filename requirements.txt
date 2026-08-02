@@ -1,0 +1,9 @@
+python-dotenv
+langchain
+langchain-groq
+langchain-voyageai
+langchain-postgres
+psycopg2-binary
+pypdf
+python-docx
+openpyxl
