@@ -17,4 +17,4 @@ CREATE TABLE chunks (
     metadata     jsonb
 );
 
-CREATE INDEX ON chunks USING ivfflat (embedding vector_cosine_ops);
+CREATE INDEX ON chunks USING hnsw (embedding vector_cosine_ops);

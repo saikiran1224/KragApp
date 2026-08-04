@@ -1,5 +1,6 @@
 from shared.config import DATABASE_URL
-
+from pgvector.psycopg2 import register_vector
+import numpy as np
 import psycopg2
 
 def retrieve_chunks(query_vector, top_k = 5):
@@ -9,6 +10,8 @@ def retrieve_chunks(query_vector, top_k = 5):
     try: 
 
         conn = psycopg2.connect(DATABASE_URL) 
+        register_vector(conn)  # ← tells psycopg2 how to handle vector type
+
         cursor = conn.cursor()
 
         # Performing the cosine similarity (<=>) check using the user provided vector with the available chunks inside the pgvector database
@@ -19,8 +22,8 @@ def retrieve_chunks(query_vector, top_k = 5):
             ORDER BY embedding <=> %s 
             LIMIT %s
             """, (
-                    str(query_vector), 
-                    str(query_vector), 
+                    np.array(query_vector), 
+                    np.array(query_vector), 
                     top_k
             )
         )
