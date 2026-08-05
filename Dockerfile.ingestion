@@ -1,0 +1,19 @@
+# Step - 1: Loading the AWS In-built image for Lambda which is Runtime Interface Client (RIC)
+# This image contains the process/instructions which invokes the handler function in the codebase
+FROM public.ecr.aws/lambda/python:3.13  
+
+# Step - 2: Setting the Present Working directory to the environment variable
+WORKDIR ${LAMBDA_TASK_ROOT}
+
+# Step - 3: Copying the requirements.txt and installing the libs in the Docker container 
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Step - 4: Now copy the required codebase, since this is for Ingestion, let's copy the ingestion folder code-base
+COPY db/ ./db/
+COPY ingestion/ ./ingestion/
+COPY shared/ ./shared/
+
+# Step - 5: Setting up the entry-point of the handler function in our codebase
+# Note: Noticed we used CMD here because its a Terminal command not BASH like RUN
+CMD ["ingestion.handler.handler"]
